@@ -1,0 +1,8 @@
+For this assignment i created two separate files. One called "Backups" and the second called "Restore" 
+The Backups file contains all the code to Backup the system. it has a menu that has three options. one option allowing the user to do a full system backup, second option allowing the user to state which directory they want to backup and filnally an exit option. 
+
+The Restore file contains the code to Restore thr backed up files. It also has a menu that has three options. one option allowing the user to restore the full system backup, second option allowinf the user to restore the partially backed up files and finally an exit option.
+
+to run the scripts you need to type ./Backups or ./Restore. 
+
+When the backup is complete it create the back up in a new directory which is /home/network/Backup on my system. here is where all the generated .tgz files are found and where they are also restored from. 
