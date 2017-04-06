@@ -1,0 +1,66 @@
+#!/bin/bash
+
+#Root Address
+ROOT="/home/network/BashAssignment"
+#The locations to be excluded from the backup folder
+EXCLUDE="--exclude=/dev --exclude=/proc --exclude=/sys --exclude=/tmp --exclude=/run --exclude=/mnt --exclude=/media --exclude=/lost+found --exclude=/backup1.tgz"
+#Destination folder for the backup file
+DEST="/home/network/Backup"
+#Name of backup file
+BACKUP="backup.tgz"
+#user input directory
+NAME="$name"
+
+#GUI
+echo "======================================="
+echo "------------ BACKUP MENU -------------"
+echo "======================================="
+
+#Options for menu 
+OPTIONS="FULL PARTIAL EXIT"
+LIST=" 1)FULL 2)PARTIAL 3)EXIT" 
+ 
+#when the answer is '3' then this will trigger the exit if
+#This will simply display an echo saying Goodbye
+#Then will stall for a second and then exit
+select answer in $OPTIONS; do
+if [ "$answer" = "EXIT" ]; then
+     echo "GOODBYE"
+     sleep 1
+     exit
+
+#When the asnwer is '2' then this will trigger the PARTIAL if statement
+#This prompts the user to enter the name of the directory they want to backup 
+elif [ "$answer" = "PARTIAL" ]; then
+      echo "PARTIAL BACKUP..."
+      #user enters the name of the directory
+      read -p "Enter directory name to backup: " name
+      echo "backing up: $name"
+      # Tar command archives and backups the name entered by the user
+      tar cvpfz $DEST/PartialB.`date +%d%m%y_%k:%M`.tgz $ROOT $NAME
+      echo "PARTIAL BACKUP DONE"
+      sleep 1
+      exit
+
+#When the answer is '1' then this will trogger the FUll if
+#This starts the full back up of the system 
+elif [ "$answer" = "FULL" ]; then
+      echo "FULL BACKUP"
+      sleep 1
+      #tar will create the archive. cvpfz creates a new backup archive, will print
+      #what its doing to the screen, preserves the permissions of the files so they 
+      #can be restored later, compresses the backup file and finaly specifies where 
+      #to store the backup
+      tar cvpfz $DEST/backup.`date +%d%m%y_%k:%M`.tgz $ROOT $EXCLUDE_DIRS
+      echo "BACKUP DONE"
+      sleep 1
+      exit
+
+#If the user enters another character other than 1, 2 or 3 then it will echo BAD INPUT and 
+#will remind the user that only 1,2 or 3 will work 
+else 
+     clear
+     echo "BAD INPUT"
+     echo "ENTER 1, 2 OR 3..."
+fi 
+done 
