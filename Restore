@@ -1,0 +1,71 @@
+#!/bin/bash
+
+#Root address
+ROOT="/home/network/BashAssignment"
+#Locations that are to be excluded from backup folder
+EXCLUDE="--exclude=/dev --exclude=/proc --exclude=/sys --exclude=/tmp --exclude=/run --exclude=/mnt --exclude=/media --exclude=/lost+found --exclude=/backup1.tgz"
+#destination of backup folder
+DEST="/home/network/Backup"
+#name of backup file
+BACKUP="$name"
+#will create these again if they do not exist
+CREATE="/dev /proc /sys /tmp /run /mnt /media /lost+found " 
+
+#gui
+echo "======================================="
+echo "------------ RESTORE MENU -------------"
+echo "======================================="
+
+#menu options
+OPTIONS="FULL PARTIAL EXIT"
+LIST=" 1)FULL 2)PARTIAL 3)EXIT"
+
+#when the user inputs '3' it will trigger the exit if displaying GOODBYE to screen
+#and then exits
+select answer in $OPTIONS; do
+if [ "$answer" = "EXIT" ]; then
+     echo "GOODBYE"
+     sleep 1
+     exit
+
+#when the user inputs '2' 
+elif [ "$answer" = "PARTIAL" ]; then
+      echo "PARTIAL RESTORE..."
+      #user enters the name of the file
+      read -p "Enter name of file to restore: " name
+      echo "Restoring: $name"
+      tar xvpfz $DEST/$BACKUP $NAME
+      sleep 1
+      echo "PARTIAL RESTORE DONE"
+      exit
+
+#when the user inputs '1' it will trigger the full restore if 
+elif [ "$answer" = "FULL" ]; then
+      read -p "Enter filename to restore: " name
+      echo "FULL RESTORE OF, $name"
+      sleep 1
+      #echo the backup file
+      echo $BACKUP
+      #tar will extract files from the archive, print the file names and unzip the files 
+      tar xvpfz $DEST/$BACKUP -C /
+      sleep 2
+      #if proc location exist then all locations exist 
+      if [[ -e "/proc" ]]; then
+            echo "$CREATE already exists! "
+      #else create the location
+      else
+          mkdir $CREATE 
+          echo "$CREATE are created!"
+      fi
+      echo "RESTORE DONE"
+      sleep 1
+      exit
+
+#if the user puts in any other character than 1,2 or 3 an error message will be displayed
+else
+     clear
+     echo "BAD INPUT"
+     echo "ENTER 1, 2 OR 3..."
+fi
+done
+
